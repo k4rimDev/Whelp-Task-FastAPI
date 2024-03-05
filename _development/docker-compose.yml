@@ -12,8 +12,16 @@ services:
       - MYSQL_DATABASE=test_db
       - MYSQL_USER=test
       - MYSQL_PASSWORD=test123
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/data:/var/lib/mysql
     restart: always 
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
     
   rabbitmq:
     image: rabbitmq
