@@ -56,13 +56,14 @@ def login(user: LoginUser, Authorize: AuthJWT = Depends()):
         "expire_at (with days)": expires.days
     }
 
+
 @router.get('/user')
 def user(Authorize: AuthJWT = Depends()):
     try:
         Authorize.jwt_required()
         current_user = Authorize.get_jwt_subject()
         return {"user": current_user}
-    except HTTPException:
+    except HTTPException as e:
         raise HTTPException(status_code=401, detail="Not authorized")
 
 
@@ -73,5 +74,5 @@ def refresh(Authorize: AuthJWT = Depends()):
         current_user = Authorize.get_jwt_subject()
         new_access_token = Authorize.create_access_token(subject=current_user)
         return {"access_token": new_access_token}
-    except Exception:
+    except Exception as e:
         raise HTTPException(status_code=400, detail="Invalid refresh token")
