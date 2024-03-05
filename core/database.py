@@ -1,6 +1,9 @@
+import os
 import peewee
 
 from contextvars import ContextVar
+
+from core.config import settings
 
 
 db_state_default = {
@@ -23,6 +26,16 @@ class PeeweeConnectionState(peewee._ConnectionState):
         return self._state.get()[name]
 
 
-db = peewee.MySQLDatabase('test_db', user='test', 
+if settings.DEBUG:
+    db = peewee.MySQLDatabase('test_db', user='test', 
                           password='test123',
                           host='127.0.0.1', port=3306)
+    
+else:
+    db = peewee.MySQLDatabase(
+        database = str(os.getenv('MYSQL_DATABASE')),
+        user = str(os.getenv('MYSQL_USER')),
+        password = str(os.getenv('MYSQL_ROOT_PASSWORD')),
+        host = str(os.getenv('MYSQL_HOST')),
+        port = 3306,
+    )

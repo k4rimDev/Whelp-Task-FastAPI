@@ -1,15 +1,25 @@
+import os
 import ipdata
 
 from celery import Celery
 from celery.utils.log import get_task_logger
 
-
-
-from app.models.ip_address import IpAddress
 from app.models.user import User
 from app.services.task import create_ip_address
 
-celery = Celery('tasks', broker='amqp://rabbit:rabbit@127.0.0.1:5672//')
+from core.config import settings
+
+
+if settings.DEBUG:
+    celery = Celery('tasks', broker='amqp://rabbit:rabbit@127.0.0.1:5672//')
+else:
+    celery = Celery('tasks', 
+                    broker='amqp://{user}:{password}@{host}:{port}//'.format(
+                        user=os.getenv("RABBITMQ_DEFAULT_USER"),
+                        password=os.getenv("RABBITMQ_DEFAULT_PASSWORD"),
+                        host=os.getenv("RABBITMQ_DEFAULT_HOST"),
+                        port=os.getenv("RABBITMQ_DEFAULT_PORT")
+                    ))    
 
 celery_log = get_task_logger(__name__)
 
