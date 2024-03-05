@@ -15,14 +15,14 @@ celery_log = get_task_logger(__name__)
 
 
 @celery.task(name="create_task")
-def create_ip_address_task(current_user):
+def create_ip_address_task(current_user, ip_address):
     if current_user and User.filter(User.username == current_user).first():
         current_user_id = User.filter(User.username == current_user).first().id
 
         ipdata.api_key = "cfbafad3637ca72504cfc36fe90b815bd23b5a400051a2054d765dd2"
         ipdata.endpoint = "https://eu-api.ipdata.co"
         
-        response = ipdata.lookup('5.253.30.82')
+        response = ipdata.lookup(ip_address)
 
         return create_ip_address(response, current_user_id)
     else:

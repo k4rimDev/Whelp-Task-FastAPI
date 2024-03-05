@@ -6,7 +6,7 @@ from app.models.user import User
 
 class IpAddress(BaseModel):
     ip = CharField(20)
-    user_id = ForeignKeyField(User, backref='ips')
+    user = ForeignKeyField(User, backref='ips', null=True)
     is_eu = BooleanField(default=False)
     city = CharField(120, null=True)
     region = CharField(120, null=True)

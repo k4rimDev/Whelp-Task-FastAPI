@@ -32,8 +32,8 @@ database.db.connect()
 
 # Create tables
 database.db.create_tables([
-    ip_address.IpAddress, 
-    user.User
+    user.User,
+    ip_address.IpAddress
 ])
 
 database.db.close()

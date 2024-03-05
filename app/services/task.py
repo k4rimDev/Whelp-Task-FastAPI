@@ -3,10 +3,10 @@ from fastapi import HTTPException
 from app.models.ip_address import IpAddress
 
 
-def create_ip_address(response, user_id):
+def create_ip_address(response, user):
     ip_address = IpAddress(
         ip=response["ip"],
-        user_id=int(user_id),
+        user=user,
         is_eu=response["is_eu"],
         city=response["city"],
         region=response["region"],
