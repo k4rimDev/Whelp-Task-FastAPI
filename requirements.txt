@@ -5,6 +5,7 @@ fastapi==0.110.0
 h11==0.14.0
 idna==3.6
 mysqlclient==2.1.0
+passlib==1.7.4
 peewee==3.17.1
 pydantic==2.6.3
 pydantic_core==2.16.3
