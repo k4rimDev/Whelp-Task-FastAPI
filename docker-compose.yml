@@ -14,11 +14,11 @@ services:
     
   rabbitmq:
     image: rabbitmq
-    container_name: rabbitmq
     env_file: .env
     ports:
       - "5672:5672"
       - "15672:15672"
+    restart: always
 
   web:
     container_name: Whelp-Task
