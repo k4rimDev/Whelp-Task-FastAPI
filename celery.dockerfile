@@ -1,16 +1,13 @@
 FROM python:3.12
 
-ENV PYTHONUNBUFFERED 1
-ENV APP_ROOT /code
-ENV DEBUG False
+WORKDIR /code
 
-ADD requirements.txt /requirements.txt
+ENV PYTHONPATH="${PYTHONPATH}:/code"
 
-RUN pip install virtualenvwrapper
-RUN python3 -m venv /venv
-RUN /venv/bin/pip install -U pip
-RUN /venv/bin/pip install --no-cache-dir -r /requirements.txt
+COPY requirements.txt .
 
-RUN mkdir ${APP_ROOT}
-WORKDIR ${APP_ROOT}
-ADD . ${APP_ROOT}
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["celery", "-A", "app.tasks.tasks", "worker", "--loglevel=info"]

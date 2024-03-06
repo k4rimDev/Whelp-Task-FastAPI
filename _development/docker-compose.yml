@@ -4,9 +4,9 @@ services:
 
   db:
     image: mysql:8.3
-    container_name: mysql
+    container_name: mysql_test
     ports:
-      - "3306:3306"
+      - "3307:3307"
     environment:
       - MYSQL_ROOT_PASSWORD=test123
       - MYSQL_DATABASE=test_db
@@ -25,10 +25,10 @@ services:
     
   rabbitmq:
     image: rabbitmq
-    container_name: rabbitmq
+    container_name: rabbitmq_test
     environment:
       - RABBITMQ_DEFAULT_USER=rabbit
       - RABBITMQ_DEFAULT_PASS=rabbit
     ports:
-        - 5672:5672
-        - 15672:15672
+        - 5673:5673
+        - 15673:15673

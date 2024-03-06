@@ -36,6 +36,6 @@ else:
         database = str(os.getenv('MYSQL_DATABASE')),
         user = str(os.getenv('MYSQL_USER')),
         password = str(os.getenv('MYSQL_ROOT_PASSWORD')),
-        host = str(os.getenv('MYSQL_HOST')),
+        host = "0.0.0.0",
         port = 3306,
     )

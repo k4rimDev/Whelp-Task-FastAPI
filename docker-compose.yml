@@ -17,13 +17,13 @@ services:
     container_name: rabbitmq
     env_file: .env
     ports:
-        - 5672:5672
-        - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
 
   web:
     container_name: Whelp-Task
     build: .
-    restart: "always"
+    restart: always
     ports:
       - "8000:8000"
     links:
@@ -33,20 +33,19 @@ services:
       - db
 
   celery:
-    restart: "always"
+    restart: always
     build:
       context: .
       dockerfile: celery.dockerfile
     container_name: celery
     env_file: .env
-    command: >
-      sh -c "celery -A app.tasks.tasks worker --loglevel=info"
+    command: celery -A app.tasks.tasks worker --loglevel=info
     volumes:
       - .:/code
     links:
-      - redis
+      - rabbitmq
     depends_on:
-      - "rabbitmq"
+      - rabbitmq
 
 networks:
   default:

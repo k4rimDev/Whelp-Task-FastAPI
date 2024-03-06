@@ -29,7 +29,7 @@ def create_ip_address_task(current_user, ip_address):
     if current_user and User.filter(User.username == current_user).first():
         current_user_id = User.filter(User.username == current_user).first().id
 
-        ipdata.api_key = "cfbafad3637ca72504cfc36fe90b815bd23b5a400051a2054d765dd2"
+        ipdata.api_key = settings.IPDATA_API_KEY
         ipdata.endpoint = "https://eu-api.ipdata.co"
         
         response = ipdata.lookup(ip_address)
