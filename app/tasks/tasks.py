@@ -14,11 +14,11 @@ if settings.DEBUG:
     celery = Celery('tasks', broker='amqp://rabbit:rabbit@127.0.0.1:5672//')
 else:
     celery = Celery('tasks', 
-                    broker='amqp://{user}:{password}@{host}:{port}//'.format(
+                    broker='amqp://{user}:{password}@rabbitmq:5672//'.format(
                         user=os.getenv("RABBITMQ_DEFAULT_USER"),
-                        password=os.getenv("RABBITMQ_DEFAULT_PASSWORD"),
-                        host=os.getenv("RABBITMQ_DEFAULT_HOST"),
-                        port=os.getenv("RABBITMQ_DEFAULT_PORT")
+                        password=os.getenv("RABBITMQ_DEFAULT_PASS"),
+                        # host=os.getenv("RABBITMQ_HOST"),
+                        # port=os.getenv("RABBITMQ_PORT")
                     ))    
 
 celery_log = get_task_logger(__name__)
