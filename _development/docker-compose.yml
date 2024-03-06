@@ -6,7 +6,7 @@ services:
     image: mysql:8.3
     container_name: mysql_test
     ports:
-      - "3307:3307"
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=test123
       - MYSQL_DATABASE=test_db
@@ -15,14 +15,18 @@ services:
     volumes:
       - ./mysql/conf.d:/etc/mysql/conf.d
       - ./mysql/data:/var/lib/mysql
-    restart: always 
+    restart: always
+    networks:
+      - task-backend
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
-    
+    networks:
+      - task-backend
+
   rabbitmq:
     image: rabbitmq
     container_name: rabbitmq_test
@@ -32,3 +36,24 @@ services:
     ports:
         - 5673:5673
         - 15673:15673
+    networks:
+      - task-backend
+
+  api:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 5 --reload
+    volumes:
+      - ../:/app
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - db
+      - rabbitmq
+    networks:
+      - task-backend
+
+
+networks:
+  task-backend:
+    driver: bridge

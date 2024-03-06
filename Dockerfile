@@ -5,6 +5,7 @@ FROM python:3.12
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH="${PYTHONPATH}:/code"
+ENV DEBUG=False
 
 # Set the working directory in the container
 WORKDIR /code
