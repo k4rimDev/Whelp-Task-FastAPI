@@ -11,7 +11,7 @@ from core.config import settings
 
 
 if settings.DEBUG:
-    celery = Celery('tasks', broker='amqp://rabbit:rabbit@127.0.0.1:5672//')
+    celery = Celery('tasks', broker='amqp://rabbit:rabbit@127.0.0.1:5673//')
 else:
     celery = Celery('tasks', 
                     broker='amqp://{user}:{password}@{host}:{port}//'.format(
