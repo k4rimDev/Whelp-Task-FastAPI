@@ -27,7 +27,9 @@ def task_your_ip(Authorize: AuthJWT = Depends()):
         task = create_ip_address_task.delay(current_user, ip_address)
         return {"task_id": task.id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Task failed to create") from e
+        raise HTTPException(
+            status_code=500, detail=f"Task failed to create with {e}"
+        ) from e
     
 
 @router.post("/task-specific-ip", description="""
@@ -40,7 +42,9 @@ def task_specific_ip(Authorize: AuthJWT = Depends()):
         task = create_ip_address_task.delay(current_user, '51.253.30.82')
         return {"task_id": task.id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Task failed to create") from e
+        raise HTTPException(
+            status_code=500, detail=f"Task failed to create with {e}"
+        ) from e
 
 
 @router.get("/status/{id}", description="Show the result of the task")
