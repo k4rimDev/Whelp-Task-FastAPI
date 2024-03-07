@@ -29,7 +29,7 @@ class PeeweeConnectionState(peewee._ConnectionState):
 if settings.DEBUG:
     db = peewee.MySQLDatabase('test_db', user='root',
                           password='test123',
-                          host='db', port=3306)
+                          host='127.0.0.1', port=3306)
 
 else:
     db = peewee.MySQLDatabase(
