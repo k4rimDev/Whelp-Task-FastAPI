@@ -18,11 +18,7 @@ router = APIRouter()
 
 @router.post("/task-your-ip", description="""
     Create a task in MySQL, send it to celery, and return task ID
-    Input will be IP address of registered User.
-
-    Create a free account on https://ipdata.co/
-    Fetch data from https://ipdata.co/ regarding provided IP and save details into DB
-    """)
+    Input will be IP address of registered User. This task is designed for user ip address""")
 def task_your_ip(Authorize: AuthJWT = Depends()):
     try:
         Authorize.jwt_required()
@@ -31,24 +27,20 @@ def task_your_ip(Authorize: AuthJWT = Depends()):
         task = create_ip_address_task.delay(current_user, ip_address)
         return {"task_id": task.id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Task failed to create")
+        raise HTTPException(status_code=500, detail="Task failed to create") from e
     
 
 @router.post("/task-specific-ip", description="""
     Create a task in MySQL, send it to celery, and return task ID
-    Input will be IP address of registered User.
-
-    Create a free account on https://ipdata.co/
-    Fetch data from https://ipdata.co/ regarding provided IP and save details into DB
-    """)
+    Input will be IP address of registered User. This task is designed for 51.253.30.82 ip address""")
 def task_specific_ip(Authorize: AuthJWT = Depends()):
     try:
         Authorize.jwt_required()
         current_user = Authorize.get_jwt_subject()
         task = create_ip_address_task.delay(current_user, '51.253.30.82')
-        return {"task_id": task.id} 
+        return {"task_id": task.id}
     except Exception as e:
-        raise HTTPException(status_code=500, detail="Task failed to create")
+        raise HTTPException(status_code=500, detail="Task failed to create") from e
 
 
 @router.get("/status/{id}", description="Show the result of the task")

@@ -26,7 +26,6 @@ def create_ip_address(response, user):
 
 
 def get_status_of_task(ip_address_id):
-    ip_address = IpAddress.filter(IpAddress.id == ip_address_id).first()
-    if ip_address:
+    if ip_address := IpAddress.filter(IpAddress.id == ip_address_id).first():
         return ip_address
     return HTTPException(status_code=404, detail="IP Address not found")
